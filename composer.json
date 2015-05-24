@@ -1,0 +1,16 @@
+{
+    "name": "nicolasdewez/loan",
+    "license": "MIT",
+    "type": "project",
+    "description": "Symfony application to get loan informations",
+    "autoload": {
+        "psr-0": { "App\\": "src/", "SymfonyStandard": "app/" }
+    },
+    "require": {
+        "nicolasdewez/application-console-bundle": "~1.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev"
+}
