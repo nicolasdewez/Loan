@@ -4,5 +4,7 @@
     <services>
         <service id="app.interactive" class="App\Service\Interactive">
         </service>
+        <service id="app.calculation" class="App\Service\Calculation">
+        </service>
     </services>
 </container>
