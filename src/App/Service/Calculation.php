@@ -14,16 +14,23 @@ class Calculation
 
     /**
      * @param Loan $loan
+     * @param bool $normal
      */
-    public function definePeriodRate(Loan $loan)
+    public function definePeriodRate(Loan $loan, $normal = false)
     {
+        if ($normal) {
+            $loan->setPeriodRate(pow(1+$loan->getRate(), 1/12) - 1);
+
+            return;
+        }
+
         $loan->setPeriodRate($loan->getRate()/12);
     }
 
     /**
      * @param Loan $loan
      */
-    public function defineMonthlyPayment(Loan $loan)
+    public function defineAmount(Loan $loan)
     {
         if (null === $loan->getPeriodRate()) {
             $this->definePeriodRate($loan);
@@ -39,7 +46,7 @@ class Calculation
     public function defineTable(Loan $loan)
     {
         if (null === $loan->getAmount()) {
-            $this->defineMonthlyPayment($loan);
+            $this->defineAmount($loan);
         }
 
         $table = [];
@@ -56,6 +63,19 @@ class Calculation
         } while ($capital >= self::CAPITAL_LIMIT);
 
         $loan->setTable($table);
+    }
+
+    /**
+     * @param Loan $loan
+     */
+    public function defineCapital(Loan $loan)
+    {
+        if (null === $loan->getPeriodRate()) {
+            $this->definePeriodRate($loan);
+        }
+
+        $capital = $loan->getAmount() * (1-(1/pow(1+$loan->getPeriodRate(), $loan->getDuration()))) / $loan->getPeriodRate();
+        $loan->setCapital($capital);
     }
 
     /**

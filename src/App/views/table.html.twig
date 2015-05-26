@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>Number</th>
+        <th>Capital</th>
+        <th>Interest</th>
+        <th>Consumed</th>
+        <th>Amount</th>
+    </tr>
+    {% for element in table %}
+        <tr>
+            <td>{{ element.number }}</td>
+            <td>{{ element.capital }}</td>
+            <td>{{ element.interest }}</td>
+            <td>{{ element.capitalConsumed }}</td>
+            <td>{{ element.total }}</td>
+        </tr>
+    {% endfor %}
+</table>

@@ -6,5 +6,19 @@
         </service>
         <service id="app.calculation" class="App\Service\Calculation">
         </service>
+        <service id="app.export" class="App\Service\Export">
+            <argument type="service">
+                <service class="\Twig_Environment">
+                    <argument type="service">
+                        <service class="\Twig_Loader_Filesystem">
+                        </service>
+                    </argument>
+                    <argument type="collection">
+                        <argument key="cache">cache</argument>
+                        <argument key="strict_variables">true</argument>
+                    </argument>
+                </service>
+            </argument>
+        </service>
     </services>
 </container>

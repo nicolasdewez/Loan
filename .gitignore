@@ -1,2 +1,4 @@
+cache
+data/*
 composer.lock
 vendor/*

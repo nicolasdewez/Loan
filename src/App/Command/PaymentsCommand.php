@@ -27,11 +27,38 @@ class PaymentsCommand extends ContainerCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $loan = new Loan();
-        $loan->setCapital(220000);
-        $loan->setRate(0.023);
-        $loan->setDuration(240);
+        $interactive = $this->container->get('app.interactive');
+        $calculation = $this->container->get('app.calculation');
+        $helper = $this->getHelper('question');
 
-        $this->container->get('app.calculation')->defineTable($loan);
+        $question = $interactive->getCapitalQuestion();
+        $capital = $helper->ask($input, $output, $question);
+
+        $question = $interactive->getRateQuestion();
+        $rate = $helper->ask($input, $output, $question);
+
+        $question = $interactive->getNormalRateQuestion();
+        $normalRate = $helper->ask($input, $output, $question);
+
+        $question = $interactive->getDurationQuestion();
+        $duration = $helper->ask($input, $output, $question);
+
+        $loan = new Loan();
+        $loan->setCapital($capital);
+        $loan->setRate($rate);
+        $loan->setDuration($duration);
+
+        $calculation->definePeriodRate($loan, $normalRate);
+        $calculation->defineAmount($loan);
+
+        $output->writeln(sprintf('<info>Amount : %.2f</info>', $loan->getAmount()));
+
+        $question = $interactive->getTableQuestion();
+        $table = $helper->ask($input, $output, $question);
+        if ($table) {
+            $calculation->defineTable($loan);
+            $path = $this->container->get('app.export')->createTable($loan->getTable());
+            $output->writeln(sprintf('<info>Payments table generated into %s</info>', $path));
+        }
     }
 }
