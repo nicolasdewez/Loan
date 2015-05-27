@@ -8,7 +8,7 @@
     },
     "require": {
         "nicolasdewez/application-console-bundle": "~1.1",
-        "twig/twig": "^2.0@dev"
+        "twig/twig": "~1.1"
     },
     "config": {
         "bin-dir": "bin"
