@@ -36,6 +36,28 @@ class Interactive
     /**
      * @return Question
      */
+    public function getAmountQuestion()
+    {
+        $question = new Question('<question>Please enter amount (ex -> 1100.5) :</question> ');
+        $question->setValidator(function ($answer) {
+            if (!is_numeric($answer)) {
+                throw new BadResponseException('Value numeric is required');
+            }
+
+            if (0 >= $answer) {
+                throw new BadResponseException('Value must be greater than zero');
+            }
+
+            return (float) $answer;
+        });
+        $question->setMaxAttempts(2);
+
+        return $question;
+    }
+
+    /**
+     * @return Question
+     */
     public function getRateQuestion()
     {
         $question = new Question('<question>Please enter rate (ex -> 2.15) :</question> ');

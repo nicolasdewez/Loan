@@ -1,13 +1,21 @@
-<table>
-    <tr>
+<ul>
+    <li>Capital : {{ loan.capital }}</li>
+    <li>Duration : {{ loan.duration }}</li>
+    <li>Rate : {{ loan.rate * 100 }}</li>
+    <li>Amount : {{ loan.amount }}</li>
+    <li>Cost : {{ loan.cost }}</li>
+</ul>
+
+<table border="1">
+    <tr bgcolor="#CCC">
         <th>Number</th>
         <th>Capital</th>
         <th>Interest</th>
         <th>Consumed</th>
         <th>Amount</th>
     </tr>
-    {% for element in table %}
-        <tr>
+    {% for element in loan.table %}
+    <tr>
             <td>{{ element.number }}</td>
             <td>{{ element.capital }}</td>
             <td>{{ element.interest }}</td>

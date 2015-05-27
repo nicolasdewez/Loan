@@ -3,7 +3,7 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-define('__PATH_DATA__', realpath(__DIR__.'/../data'));
+define('__PATH_DATA__', __DIR__.'/../data');
 define('__PATH_VIEWS__', realpath(__DIR__.'/App/views'));
 
 use App\Command\CapacityCommand;

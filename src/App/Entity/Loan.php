@@ -25,6 +25,9 @@ class Loan extends Data
     /** @var Monthly[] */
     protected $table;
 
+    /** @var float */
+    protected $cost;
+
     /**
      * @return float
      */
@@ -119,5 +122,21 @@ class Loan extends Data
     public function setTable($table)
     {
         $this->table = $table;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $this->round($cost);
     }
 }

@@ -27,17 +27,39 @@ class CapacityCommand extends ContainerCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $interactive = $this->container->get('app.interactive');
+        $calculation = $this->container->get('app.calculation');
+        $helper = $this->getHelper('question');
+
+        $question = $interactive->getAmountQuestion();
+        $amount = $helper->ask($input, $output, $question);
+
+        $question = $interactive->getRateQuestion();
+        $rate = $helper->ask($input, $output, $question);
+
+        $question = $interactive->getNormalRateQuestion();
+        $normalRate = $helper->ask($input, $output, $question);
+
+        $question = $interactive->getDurationQuestion();
+        $duration = $helper->ask($input, $output, $question);
+
         $loan = new Loan();
-        $loan->setAmount(1144.47);
-        $loan->setRate(0.022);
-        $loan->setDuration(240);
+        $loan->setAmount($amount);
+        $loan->setRate($rate);
+        $loan->setDuration($duration);
 
-        $this->container->get('app.calculation')->definePeriodRate($loan);
-        $this->container->get('app.calculation')->defineCapital($loan);
-        dump($loan->getCapital());
+        $calculation->definePeriodRate($loan, $normalRate);
+        $calculation->defineCapital($loan);
+        $calculation->defineTable($loan);
+        $calculation->defineCost($loan);
 
-        $this->container->get('app.calculation')->definePeriodRate($loan, true);
-        $this->container->get('app.calculation')->defineCapital($loan);
-        dump($loan->getCapital());
+        $output->writeln(sprintf('<info>Capital : %.2f</info>', $loan->getCapital()));
+
+        $question = $interactive->getTableQuestion();
+        $table = $helper->ask($input, $output, $question);
+        if ($table) {
+            $path = $this->container->get('app.export')->createTable($loan);
+            $output->writeln(sprintf('<info>Payments table generated into %s</info>', $path));
+        }
     }
 }

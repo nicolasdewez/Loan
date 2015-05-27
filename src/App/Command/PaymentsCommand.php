@@ -50,14 +50,15 @@ class PaymentsCommand extends ContainerCommand
 
         $calculation->definePeriodRate($loan, $normalRate);
         $calculation->defineAmount($loan);
+        $calculation->defineTable($loan);
+        $calculation->defineCost($loan);
 
         $output->writeln(sprintf('<info>Amount : %.2f</info>', $loan->getAmount()));
 
         $question = $interactive->getTableQuestion();
         $table = $helper->ask($input, $output, $question);
         if ($table) {
-            $calculation->defineTable($loan);
-            $path = $this->container->get('app.export')->createTable($loan->getTable());
+            $path = $this->container->get('app.export')->createTable($loan);
             $output->writeln(sprintf('<info>Payments table generated into %s</info>', $path));
         }
     }

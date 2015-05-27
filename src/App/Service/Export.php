@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Monthly;
+use App\Entity\Loan as LoanEntity;
 
 /**
  * Class Export.
@@ -19,17 +19,21 @@ class Export
     {
         $this->twig = $twig;
         $this->twig->getLoader()->addPath(__PATH_VIEWS__);
+        if (!file_exists(__PATH_DATA__)) {
+            mkdir(__PATH_DATA__);
+        }
     }
 
     /**
-     * @param Monthly[] $table
+     * @param LoanEntity $loan
      *
      * @return string
      */
-    public function createTable(array $table)
+    public function createTable(LoanEntity $loan)
     {
-        $path = __PATH_DATA__.'/table.html';
-        file_put_contents($path, $this->twig->render('table.html.twig', ['table' => $table]));
+        $date = new \DateTime();
+        $path = sprintf('%s/table_%s.html', __PATH_DATA__, $date->format('Ymd_His'));
+        file_put_contents($path, $this->twig->render('table.html.twig', ['loan' => $loan]));
 
         return realpath($path);
     }

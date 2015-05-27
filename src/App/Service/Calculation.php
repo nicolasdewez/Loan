@@ -79,6 +79,18 @@ class Calculation
     }
 
     /**
+     * @param Loan $loan
+     */
+    public function defineCost(Loan $loan)
+    {
+        $cost = 0;
+        foreach ($loan->getTable() as $monthly) {
+            $cost += $monthly->getInterest();
+        }
+        $loan->setCost($cost);
+    }
+
+    /**
      * @param Monthly $monthly
      * @param Loan    $loan
      * @param float   $capital
