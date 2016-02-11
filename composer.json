@@ -7,7 +7,7 @@
         "psr-0": { "App\\": "src/", "SymfonyStandard": "app/" }
     },
     "require": {
-        "nicolasdewez/application-console-bundle": "~1.1",
+        "nicolasdewez/application-console": "~1.1",
         "twig/twig": "~1.1"
     },
     "config": {
